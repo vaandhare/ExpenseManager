@@ -1,0 +1,113 @@
+export const monthsArray = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "June",
+  "July",
+  "Aug",
+  "Sept",
+  "Nov",
+  "Dec",
+];
+
+export const categoryArray = [
+  { title: "Income", image: require("../assets/icons/income.png") },
+  {
+    title: "Investment",
+    image: require("../assets/icons/investment.png"),
+  },
+  { title: "Insurance", image: require("../assets/icons/insurance.png") },
+  {
+    title: "Home Expense",
+    image: require("../assets/icons/home_expenses.png"),
+  },
+  {
+    title: "Daily Living",
+    image: require("../assets/icons/personal.png"),
+  },
+  {
+    title: "Transportation",
+    image: require("../assets/icons/transportation.png"),
+  },
+  { title: "Health", image: require("../assets/icons/health.png") },
+  { title: "Charity/Gifts", image: require("../assets/icons/gift.png") },
+  {
+    title: "Entertainment",
+    image: require("../assets/icons/entertainment.png"),
+  },
+  {
+    title: "Obligations",
+    image: require("../assets/icons/obligations.png"),
+  },
+  {
+    title: "Subscriptions",
+    image: require("../assets/icons/subscription.png"),
+  },
+  { title: "Miscellaneous", image: require("../assets/icons/misc.png") },
+];
+
+export const subCategoryArray = [
+  [
+    "Salary",
+    "Freelance",
+    "Cashbacks",
+    "To Parents",
+    "From Parents",
+    "Her",
+    "Other",
+  ],
+  [
+    "PPFAS SIP",
+    "NPS",
+    "Edelwiess Balance Adv SIP",
+    " Other M.F.",
+    "Crypto",
+    " Indian Stocks",
+    " US Stocks",
+    " Gold / Digital Gold",
+    " Other",
+  ],
+  [
+    "Term Insurance - HDFC",
+    "Health Insurance",
+    "Car Insurance",
+    "Bike Insurance",
+  ],
+  [
+    "Rent",
+    "Groceries",
+    "Home Appliances",
+    "Recharge",
+    "Internet",
+    "Car",
+    "Food",
+    "Other",
+  ],
+  [
+    "Personal Supplies",
+    "Clothing",
+    "Stationary",
+    "Education/Lessons",
+    "Dining/Eating Out",
+    "Salon/Barber",
+    "Pet Food",
+    "Other",
+  ],
+  ["Fuel", "Bus/Taxi/Train Fare", "Repairs", "Registration/License", "Other"],
+  ["Doctor", "Medicine", "Pet Care", "Other"],
+  ["Charity", "Gifts", "Other"],
+  [
+    "Trip/Trek",
+    "Activities",
+    "Books",
+    "Fun Stuff",
+    "Sports",
+    "Toys/Gadgets",
+    "Other",
+  ],
+  ["Credit Cards Debt", "Loans", "Bank Fees", "Other"],
+  ["Amazon Prime", "Disney+ Hotstar", "Sony Liv", "Other"],
+  ["Postage", "Electricity Bill", "Other"],
+];
