@@ -4,43 +4,46 @@ import {
   View,
   TouchableOpacity,
   Modal,
+  Image,
   FlatList,
 } from "react-native";
 import React, { useState } from "react";
 import Items from "./Items";
-import { subCategoryArray } from "../../../constants/arrayLists";
-import { BG_COLOR, COLOR_BLACK, COLOR_GREY, COLOR_LIGHT_GREY, COLOR_WHITE } from "../../../constants/colors";
+import { COLOR_BLACK } from "../../../constants/colors";
+import { useSelector } from "react-redux";
 
-const SubCategory = ({
-  categoryIndex,
-  subCategoryIndex,
-  setSubCategoryIndex,
-}) => {
+const Category = ({ categoryIndex, setCategoryIndex, setSubCategoryIndex }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
-  const subCategoryModal = () => {
+  const { categories } = useSelector(
+    (state) => state.categoryReducer.category
+  );
+
+  const categoryModal = () => {
     return (
       <>
         <View style={styles.modelConatiner}>
           <View style={styles.modelCheckoutContainer}>
             <View style={styles.headerContainer}>
-              <Text style={styles.header}>Select Sub-Category</Text>
+              <Text style={styles.header}>Select Category</Text>
             </View>
 
             <FlatList
-            contentContainerStyle={styles.flatListContainer}
+              numColumns={3}
               keyExtractor={(item, index) => index.toString()}
-              data={subCategoryArray[categoryIndex]}
+              data={categories}
               renderItem={({ item, index }) => (
                 <TouchableOpacity
                   key={index}
-                  style={styles.subCategoryList}
+                  style={styles.categoryList}
                   onPress={() => {
-                    setSubCategoryIndex(index);
+                    setCategoryIndex(index);
+                    setSubCategoryIndex(0);
                     setModalVisible(false);
                   }}
                 >
-                  <Text style={index===subCategoryIndex ? styles.subCategorySelected : styles.subCategoryTitle}>{item}</Text>
+                  <Image style={styles.categoryIcon} source={item.image} />
+                  <Text style={styles.categoryTitle}>{item.title}</Text>
                 </TouchableOpacity>
               )}
             />
@@ -58,12 +61,12 @@ const SubCategory = ({
         transparent={true}
         onRequestClose={() => setModalVisible(false)}
       >
-        {subCategoryModal()}
+        {categoryModal()}
       </Modal>
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <Items
-          imageUrl={require("../../../assets/icons/categories.png")}
-          title={subCategoryArray[categoryIndex][subCategoryIndex]}
+          imageUrl={categories[categoryIndex].image}
+          title={categories[categoryIndex].title}
           text={true}
         />
       </TouchableOpacity>
@@ -71,7 +74,7 @@ const SubCategory = ({
   );
 };
 
-export default SubCategory;
+export default Category;
 
 const styles = StyleSheet.create({
   modelConatiner: {
@@ -84,7 +87,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     padding: 15,
-    height: 250,
+    height: 350,
   },
   headerContainer: {
     width: "100%",
@@ -96,34 +99,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  flatListContainer: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      maxWidth: '100%',
-      maxHeight: 230,
-  },
-  subCategoryTitle: {
-    fontSize: 16,
-    paddingVertical: 7,
-    marginHorizontal: 5,
-    marginVertical: 4,
-    paddingHorizontal: 12,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: COLOR_GREY,
-    backgroundColor: COLOR_LIGHT_GREY,
-  },
-  subCategorySelected: {
-    fontSize: 16,
+  categoryList: { alignItems: "center", width: "33%", padding: 10 },
+  categoryTitle: {
+    fontSize: 14,
     fontWeight: "bold",
     color: COLOR_BLACK,
-    backgroundColor: BG_COLOR,
-    paddingVertical: 7,
-    marginHorizontal: 5,
-    marginVertical: 4,
-    paddingHorizontal: 12,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: COLOR_BLACK
-  }
+  },
+  categoryIcon: {
+    width: 30,
+    height: 30,
+  },
 });

@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import React, { useState, useEffect } from "react";
 import Items from "./Items";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
@@ -49,5 +49,3 @@ const DatePicker = ({ date, setDate }) => {
 };
 
 export default DatePicker;
-
-const styles = StyleSheet.create({});

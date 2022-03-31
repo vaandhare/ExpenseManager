@@ -6,26 +6,82 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import React, { useState } from "react";
-import { BG_COLOR, COLOR_BLACK, COLOR_WHITE } from "../constants/colors";
-import Items from "./components/AddEntry/Items";
-import DatePicker from "./components/AddEntry/DatePicker";
-import Category from "./components/AddEntry/Category";
-import SubCategory from "./components/AddEntry/SubCategory";
+import React, { useState, useEffect } from "react";
+import { BG_COLOR, COLOR_BLACK, COLOR_WHITE } from "../../constants/colors";
+import { monthsArray } from "../../constants/arrayLists";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Items from "../components/AddTransaction/Items";
+import DatePicker from "../components/AddTransaction/DatePicker";
+import SubCategory from "../components/AddTransaction/SubCategory";
+import Category from "../components/AddTransaction/Category";
+import { useSelector } from "react-redux";
 
-const AddTransaction = () => {
+const AddTransaction = ({ route, navigation }) => {
   const [categoryIndex, setCategoryIndex] = useState(0);
   const [subCategoryIndex, setSubCategoryIndex] = useState(0);
   const [date, setDate] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
 
+  const [transactionData, setTransactionData] = useState([]);
+
+  const { categories, subCategories } = useSelector(
+    (state) => state.categoryReducer.category
+  );
+
+
+  const findExistingTranscationRecords = async () => {
+    const transactionRecords = await AsyncStorage.getItem("transactionRecords");
+    if (transactionRecords !== null)
+      setTransactionData(JSON.parse(transactionRecords));
+  };
+
+  const onDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+
+    const tempDate = new Date(currentDate);
+    const dateString =
+      tempDate.getDate() +
+      " " +
+      monthsArray[tempDate.getMonth()] +
+      " " +
+      tempDate.getFullYear();
+
+    setDate(dateString);
+  };
+
+  const onSubmit = async () => {
+    const transaction = {
+      id: Date.now(),
+      date: date,
+      amount: amount,
+      category: categories[categoryIndex].title,
+      subcategory: subCategories[categoryIndex][subCategoryIndex],
+      description: description,
+    };
+
+    const updatedTransaction = [...transactionData, transaction];
+    setTransactionData(updatedTransaction);
+    await AsyncStorage.setItem(
+      "transactionRecords",
+      JSON.stringify(updatedTransaction)
+    );
+
+    alert("Transaction added successfully");
+    console.log(updatedTransaction);
+    onDateChange("", new Date());
+  };
+
+  useEffect(() => {
+    findExistingTranscationRecords();
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
         <TouchableOpacity>
           <Image
-            source={require("../assets/icons/close.png")}
+            source={require("../../assets/icons/close.png")}
             style={styles.closeIcon}
           />
         </TouchableOpacity>
@@ -55,15 +111,19 @@ const AddTransaction = () => {
         />
         <DatePicker date={date} setDate={setDate} />
         <Items
-          imageUrl={require("../assets/icons/notes.png")}
+          imageUrl={require("../../assets/icons/notes.png")}
           title={"Notes"}
           text={false}
+          description={description}
+          setDescription={setDescription}
         />
-        <TouchableOpacity>
-          <Image source={require("../assets/icons/next.png")} style={styles.submit}/>
+        <TouchableOpacity onPress={() => onSubmit()}>
+          <Image
+            source={require("../../assets/icons/next.png")}
+            style={styles.submit}
+          />
         </TouchableOpacity>
       </View>
-      
     </View>
   );
 };
@@ -122,6 +182,6 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     marginTop: 70,
-    alignSelf: 'center'
-  }
+    alignSelf: "center",
+  },
 });

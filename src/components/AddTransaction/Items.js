@@ -2,7 +2,7 @@ import { StyleSheet, Text, TextInput, View, Image } from "react-native";
 import React from "react";
 import { COLOR_GREY } from "../../../constants/colors";
 
-const Items = ({ imageUrl, title, text }) => {
+const Items = ({ imageUrl, title, text, description, setDescription }) => {
   return (
     <View style={styles.container}>
       <View style={styles.iconContainer}>
@@ -13,6 +13,8 @@ const Items = ({ imageUrl, title, text }) => {
           <TextInput
             style={styles.title}
             placeholder={title}
+            value={description}
+            onChange={(e) => setDescription(e.nativeEvent.text)}
             placeholderTextColor={COLOR_GREY}
             multiline={true}
           />
